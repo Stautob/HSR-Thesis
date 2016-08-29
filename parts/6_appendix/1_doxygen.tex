@@ -1,0 +1,15 @@
+\newcommand{\doxygen}{Doxygen }
+\lhead{\doxygen}
+\rhead{}
+
+% \doxychapter{project_name}{pdf_filename}
+\newcommand{\doxychapter}[2]{
+    \pdfchapter[{This chapter was generated using Doxygens PDF output functionality.\\
+    Therefore the design might be inconsistent.}]
+    {Documentation #1}
+    {doxygen/#2}
+}
+
+
+% \doxychapter{[Title of chapter]}{[filename in doxygen].pdf}
+% Add more doxygen imputs here

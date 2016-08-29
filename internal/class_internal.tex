@@ -1,0 +1,302 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Stautob HSR LaTex Template                                                                        %
+%                                                                                                   %
+%                                                                                                   %
+%   Copyright (c) 2016, Stautob                                                                     %
+%   All rights reserved.                                                                            %
+%                                                                                                   %
+%   Redistribution and use in source and binary forms, with or without                              %
+%   modification, are permitted provided that the following conditions are met:                     %
+%                                                                                                   %
+%   * Redistributions of source code must retain the above copyright notice, this                   %
+%     list of conditions and the following disclaimer.                                              %
+%                                                                                                   %
+%   * Redistributions in binary form must reproduce the above copyright notice,                     %
+%     this list of conditions and the following disclaimer in the documentation                     %
+%     and/or other materials provided with the distribution.                                        %
+%                                                                                                   %
+%   * Neither the name of HSR-Thesis nor the names of its                                           %
+%     contributors may be used to endorse or promote products derived from                          %
+%     this software without specific prior written permission.                                      %
+%                                                                                                   %
+%   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"                     %
+%   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE                       %
+%   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE                  %
+%   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE                    %
+%   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL                      %
+%   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR                      %
+%   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER                      %
+%   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,                   %
+%   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE                   %
+%   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                            %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% CLASS INTERNALS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                   %
+%   Do not touch except if you know what you are doing                                              %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Import and pdfpages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{import}
+\usepackage{pdfpages}
+
+
+% Language setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[\thesislanguage]{babel}
+
+
+% Argument parsing setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xparse}
+
+
+% Layout setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.85]{helvet}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{calc}
+
+
+% Formatting setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumitem}
+\usepackage[hyphens]{url}
+
+
+% Appendix setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[titletoc,title]{appendix}
+
+
+% Images setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{svg}
+\setsvg{inkscape=inkscape -z -D,svgpath=template_images/}
+\usepackage{float}
+
+
+% Titlesec setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+\setlength\aftertitleunit{\baselineskip}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{}{0pt}{\Huge}
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\huge\bfseries}{}{0pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{25pt}{*2}
+
+
+% Hyperref setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+% \fanref{label_name}{display_text}
+\newcommand{\fanref}[2]{\hyperref[#1]{#2 \ref*{#1}}}
+% \fanparef{label_name}{display_text}
+\newcommand{\fanparef}[2]{\hyperref[#1]{#2 \ref*{#1}} on page \pageref{#1}}
+
+
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[numbers,round]{natbib}
+\bibliographystyle{plainnat}
+% Prints BibTeX logo in a style like \LaTeX
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+
+% Prepare glossary
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{glossaries}
+\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m } {
+    \newglossaryentry{gls-#3}{name={#5},text={#5\glsadd{#3}}, description={#6},#1}
+    \makeglossaries
+    \newacronym[see={[Glossary:]{gls-#3}},#2]{#3}{#4}{#5\glsadd{gls-#3}}
+}
+\newcommand{\listglossaryentries}
+    {
+    \ifthenelse{\equal{\thesislanguage}{ngerman}}{\printglossary[style=altlist,title=Glossar]}{\printglossary[style=altlist,title=Glossary]}
+    }
+
+
+% Wrap minteds into boxes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+
+
+% Prepare minted or listings, depends on what was set
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\equal{\thesisloadminted}{true}}
+    {%
+    \usepackage{minted}
+    \newmint{\thesisdefaultproglang}{
+        baselinestretch=1.2,
+        funcnamehighlighting=true,
+        bgcolor=lightgray,
+        fontsize=\footnotesize,
+        breaklines=true,
+        samepage=true,
+        linenos
+    }
+    
+    \newminted[thesisminted]{\thesisdefaultproglang}{tabsize=2, fontsize=\footnotesize, breaklines}
+    
+    \newtcolorbox[auto counter, number within=section, list inside=thesisminteds]{boxedmint}[2][]
+        {%
+        title={Listing \thetcbcounter: #2},
+        list entry={\protect\numberline{\thetcbcounter}#2},
+        colframe=lightgray!50!black,
+        #1%
+        }%
+
+    \NewDocumentEnvironment{listedmint}{O{thesisminted}m}
+        {%
+        \def\listingsboxenvironment{#1}%
+        \VerbatimEnvironment%
+        \begin{boxedmint}{#2}%
+            \begin{\listingsboxenvironment}%
+        }%
+        {%
+            \end{\listingsboxenvironment}%
+        \end{boxedmint}%
+        }%
+        
+    \newcommand{\listcodesnippets}
+        {
+        \tcblistof[\chapter*]{thesisminteds}{\ifthenelse{\equal{\thesislanguage}{ngerman}}{Codeverzeichnis}{List of Code-samples}}
+        }
+    }%
+    {%
+    \usepackage{listings}%
+    \lstset{%
+        backgroundcolor=\color{lightgray},
+        basicstyle=\footnotesize,
+        breakatwhitespace=false,
+        breaklines=true,
+        captionpos=b,
+        commentstyle=\color{mygreen},
+        frame=single,
+        keepspaces=true,
+        keywordstyle=\color{blue},
+        numbers=none,
+        rulecolor=\color{black},
+        showtabs=false,
+        stringstyle=\color{mymauve},
+        tabsize=2,
+        title=\lstname
+        }%
+        
+        \NewDocumentEnvironment{listedmint}{m}
+        {%
+        \begin{lstlisting}[caption=#1]%
+        }%
+        {%
+        \end{lstlisting}%
+        }%
+        
+    \newcommand{\listcodesnippets}%
+        {%
+        Codesnippet listing for ´´listings´´ not jet implemented.
+        }%
+    }%
+
+
+% Custom usepackages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{config/}{custom_usepackages.tex}
+
+
+% Custom commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{config/}{custom_commands.tex}
+
+
+% Custom environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{config/}{custom_environments.tex}
+
+
+% Global configuration
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{config/}{custom_config.tex}
+
+
+% Print authors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\thesisauthors}[1][ \& ]%
+    {%
+    \ifthenelse{\equal{\thesisauthora}{}}{\message{No thesis authors defined}}%
+        {%
+        \ifthenelse{\equal{\thesisauthorb}{}}{\thesisauthora{}}%
+            {%
+            \ifthenelse{\equal{\thesisauthorc}{}}{\thesisauthora{}#1\thesisauthorb{}}{\thesisauthora{}#1\thesisauthorb{}#1\thesisauthorc{}}%
+            }%
+        }%
+    }%
+
+
+% Titlepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\maketitle}
+    {
+    \begin{titlepage}
+        % Logos
+        \setlength{\unitlength}{1mm}
+        \begin{picture}(165,40)
+            \put(0,0){\includegraphics[height=30mm]{\thesishsrlogopath}}
+            \put(110,0){\includegraphics[height=30mm]{\thesispartnerlogopath}}
+        \end{picture}
+        \vspace{15mm}
+    
+        % Title
+        \begin{center}%
+            \Large\thesistype , \departement\\[2ex]
+            \Huge\thesistitle\\[2ex]
+            \large\school\\[1ex]
+            \normalsize\term\\
+            \normalsize\thedate
+            \vfill
+        \end{center}%
+
+        % Small info part
+        \begin{minipage}{\textwidth}%
+            \begin{flushleft}%
+                \begin{tabular}[t]{l l}%
+                    \ifthenelse{\equal{\thesislanguage}{ngerman}}
+                        {%
+                        \ifthenelse{\equal{\professor{}}{}}{\\}{\emph{Supervisor:} & \professor{}\\[3pt]}
+                        \emph{\ifthenelse{\equal{\thesisauthorb}{}}{Autor:}{Autoren:}} & \thesisauthors{}\\[3pt]
+                        \ifthenelse{\equal{\partner{}}{}}{\\}{\emph{Technischer Berater:} & \partner{}\\[3pt]}
+                        \ifthenelse{\equal{\partnercompany{}}{}}{}{\emph{Partner Firma:} & \partnercompany{}\\[3pt]}
+                        \emph{Dauer:} & \timeperiode{}\\[3pt]
+                        \emph{Arbeitsumfang:} & \workload{}\\[3pt]
+                        \emph{Website:} & \url{\linktothesis}
+                        }%
+                        {%
+                        \ifthenelse{\equal{\professor{}}{}}{\\}{\emph{Supervisor:} & \professor{}\\[3pt]}
+                        \emph{\ifthenelse{\equal{\thesisauthorb}{}}{Author:}{Authors:}} & \thesisauthors{}\\[3pt]
+                        \ifthenelse{\equal{\partner{}}{}}{\\}{\emph{Technical Advisor:} & \partner{}\\[3pt]}
+                        \ifthenelse{\equal{\partnercompany{}}{}}{}{\emph{Partner Company:} & \partnercompany{}\\[3pt]}
+                        \emph{Duration:} & \timeperiode{}\\[3pt]
+                        \emph{Extent of work:} & \workload{}\\[3pt]
+                        \emph{Website:} & \url{\linktothesis}
+                        }%
+                \end{tabular}%
+            \end{flushleft}%
+        \end{minipage}%
+    \end{titlepage}%
+    }%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

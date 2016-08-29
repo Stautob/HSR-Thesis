@@ -1,0 +1,103 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Stautob HSR LaTex Template                                                                        %
+%                                                                                                   %
+%                                                                                                   %
+%   Copyright (c) 2016, Stautob                                                                     %
+%   All rights reserved.                                                                            %
+%                                                                                                   %
+%   Redistribution and use in source and binary forms, with or without                              %
+%   modification, are permitted provided that the following conditions are met:                     %
+%                                                                                                   %
+%   * Redistributions of source code must retain the above copyright notice, this                   %
+%     list of conditions and the following disclaimer.                                              %
+%                                                                                                   %
+%   * Redistributions in binary form must reproduce the above copyright notice,                     %
+%     this list of conditions and the following disclaimer in the documentation                     %
+%     and/or other materials provided with the distribution.                                        %
+%                                                                                                   %
+%   * Neither the name of HSR-Thesis nor the names of its                                           %
+%     contributors may be used to endorse or promote products derived from                          %
+%     this software without specific prior written permission.                                      %
+%                                                                                                   %
+%   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"                     %
+%   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE                       %
+%   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE                  %
+%   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE                    %
+%   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL                      %
+%   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR                      %
+%   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER                      %
+%   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,                   %
+%   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE                   %
+%   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                            %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt, twoside]{hsrthesis}
+
+% CONFIGURATION SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                   %
+%   Please fill in "config/required_thesis_config.tex",                                             %
+%   before using.                                                                                   %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                   %
+%   To make the glossary the command makeglossaries "document_name" should be run after             %
+%   pdflatex "document_name"                                                                        %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                   %
+%   If used with Sharelatex Community edition, at time of                                           %
+%   creation of this document you had to add a simple                                               %
+%   line of java script to the engine to ensure                                                     %
+%   compilation of the glossary.                                                                    %
+%                                                                                                   %
+%   In /var/www/sharelatex/clsi/app/js/LatexRunner.js                                               %
+%   add the line                                                                                    %
+%                                                                                                   %
+%    CommandRunner.run(project_id, ["makeglossaries", "output"], directory, timeout, function(){}); %
+%                                                                                                   %
+%   before the line                                                                                 %
+%                                                                                                   %
+%    return CommandRunner.run(project_id, command, directory, timeout, callback);                   %
+%                                                                                                   %
+%   Now the glossaries will be built.                                                               %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% DOCUMENT SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\import{internal/}{document_setup.tex}
+
+
+% BUILD DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                   %
+%   Please add each part here in the according order.                                               %
+%                                                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \maketitle
+
+    \import{parts/}{0_structure.tex}
+
+    \tableofcontents
+
+    % Parts can be renamed, deleted, modified or added.
+    \import{parts/}{1_introduction.tex}
+    \import{parts/}{2_stateoftheartdesign.tex}
+    \import{parts/}{3_name_chap3.tex}
+    \import{parts/}{4_conclusion.tex}
+    \import{parts/}{6_appendix.tex}
+
+    \listoffigures{}
+    \listcodesnippets{}
+    \listglossaryentries{}
+    \bibliography{literature}
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
